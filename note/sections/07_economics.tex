@@ -1,5 +1,5 @@
-\input{sections/07_economics_macros}
-\input{sections/07_economics_calculations}
+\input{sections/07/economics_macros}
+\input{sections/07/economics_calculations}
 
 \section{Технико-экономическое обоснование разработки и внедрения программного средства}
 \label{sec:economics}
@@ -7,121 +7,49 @@
 \subsection{Характеристика программного средства}
 \label{sec:economics:description}
 
-...
+Разрабатываемый программное средство создания веб-приложений с помощью готовых графических компонентов представляет собой интегрируемый программный модуль. Разрабатываемый модуль позволяет:
+\begin{itemize}
+	\item чистая дисконтированная стоимость (ЧДД);
+	\item срок окупаемости инвестиций (ТОК);
+	\item рентабельность инвестиций (Ри).
+\end{itemize}
 
-Разработки проектов программных средств связана со значительными затратами ресурсов. В связи с этим создание и реализация каждого проекта программного обеспечения нуждается в соответствующем технико-экономическом обосновании~\cite{palitsyn}, которое и описывается в данном разделе.
+Разработка программного модуля осуществлялась на языке JavaScript с использованием технологии Webix. 
 
-\subsection{Определение объема и трудоемкости ПС}
+Разработанное программное средство предполагает, что его интеграция будет производиться в приложение, построенное на основе архитектуры клиент ‒ сервер, где сервером является web-сервер, а клиентом приложение, в которое будет интегрироваться данный программное средство. При инициализации программный модуль будет отправлять запрос на сервер с целью получения конфигураций базовых компонентов, которые и будут использоваться конечным пользователем при создании своего макета приложения. 
+
+Интегрируемый программный модуль позволяет разработчику приложения, являющегося местом интеграции, дать пользователю возможность самому определить внешний вид приложения согласно своим предпочтениям. Набор базовых компонентов и правила создания макета определяет разработчик, в чей продукт будет интегрироваться данное программное средство.
+
+Разрабатываемый программный модуль имеет следующие
+преимущества:
+\begin{itemize}
+	\item простой и понятный интерфейс;
+	\item легко конфигурируется;
+	\item гибкая интеграция.
+\end{itemize}
+
+\subsection{Расчет затрат на разработку и отпускной цены программного модуля}
 \label{sec:economics:labouriousness}
 
-Целесообразность создания ПС требует проведения предварительной экономической оценки. Экономический эффект у разработчика ПС зависит от объема инвестиций в разработку проекта, цены на готовый продукт и количества проданных копий, и проявляется в виде роста чистой прибыли. 
+Общий объем программного модуля определяется на основе информации о функциях разрабатываемого программного модуля, исходя из количества и объема функций, реализуемых программным модулем, по формуле:
 
-Оценка стоимости создания ПС со стороны разработчика предполагает составление сметы затрат, вычисление цены и прибыли от реализации разрабатываемого программного средства. 
+\begin{equation}
+	\totalloc = \sum_{i=1}^{n} \text{V}_i,
+\end{equation}
+\begin{explanation}
+	где & $ \text{V}_i $ & объем i-ой функции программного модуля (количество строк исходного кода (LОС));\\
+	& $ n $ & общее число функций.
+\end{explanation}
 
-Исходные данные, которые будут использоваться при расчете сметы затрат, представлены в таблице~\ref{table:economics:labouriousness:initial_data}.
+С учетом условий разработки общий объем программного модуля уточняется в организации и определяется уточненный объем программного модуля по формуле:
+\begin{equation}
+	\text{V}_y = \sum_{i=1}^{n} \text{V}_\text{yi},
+\end{equation}
+\begin{explanation}
+	где & $ \text{V}_\text{yi} $ & уточненный объем i-й функции программного модуля (LОС).
+\end{explanation}
 
-\begin{table}[!ht]
-\caption{Исходные данные}
-\label{table:economics:labouriousness:initial_data}
-\centering
-	\begin{tabular}{{ 
-	|>{\raggedright}m{0.6\textwidth} | 
-	 >{\centering}m{0.17\textwidth} | 
-	 >{\centering\arraybackslash}m{0.15\textwidth}|}}
-
-  	\hline
-	{\begin{center} Наименование показателя \end{center}} & Условное обозначение &	Значение \\
-  
-	\hline
-	Категория сложности & & 3 \\
-
-	\hline
-	Дополнительный коэффициент сложности & $\sum\limits_{i=1}^{n} \text{К}_i$ & \additionalcomplexityfactor \\
-
-	\hline
-	Степень охвата функций стандартными модулями & $\stdmodules$ & \stdmodulesfactor \\
-
-	\hline
-	Коэффициент новизны & $\novelty$ & \noveltyfactor \\
-
-	\hline
-	Количество дней в году & $\daysinyear$ & \daysinyearfactor \\
-
-	\hline
-	Количество праздничных дней в году & $\holidays$ & \holidaysfactor \\
-
-	\hline
-	Количество выходных дней в году & $\weekends$ & \weekendsfactor \\
-
-	\hline
-	Количество дней отпуска & $\vacationdays$ & \vacationdaysfactor \\
-
-	\hline
-	Количество разработчиков & $\developersnumber$ & \developersnumberfactor \\
-
-	\hline
-	Тарифная ставка первого разряда, \byn & $\firstratetariffsymbol$ & \firstratetariffvalue \\
-
-	\hline
-	Среднемесячная норма рабочего времени, ч. & $\averagehourspermonthsymbol$ & \averagehourspermonthvalue \\
-
-	\hline
-	Продолжительность рабочей смены, ч. & $\hourspershiftsymbol$ & \hourspershiftvalue \\
-
-	\hline
-	Коэффициент премирования & $\bonusratesymbol$ & \bonusratevalue \\
-
-	\hline
-	Норматив дополнительной заработной платы & $\additionalwageratesymbol$ & \additionalwageratevalue \\
-
-	\hline
-	Норматив отчислений в ФСЗН & $\ssfratesymbol $ & \ssfratevalue \\
-
-	\hline
-	Норматив отчислений по обязательному страхованию & $\insuranceratesymbol $ & \insuranceratevalue \\
-
-	\hline
-	Норматив расходов по статье <<Материалы>> & $\consumablesratesymbol $ & \consumablesratevalue \\
-
-	\hline
-	Норматив расходов по статье <<Машинное время>> & $\machinetimeratesymbol $ & \machinetimeratevalue \\
-
-	\hline
-	Понижающий коэффициент к статье <<Машинное время>> & & \machinetimereductionratevalue \\
-
-	\hline
-	Стоимость машино-часа, \byn & $\machinehourpricesymbol$ & \machinehourpricevalue \\
-
-	\hline
-	Норматив расходов по статье <<Научные командировки>> & $\businesstripratesymbol$ & \businesstripratevalue \\
-
-	\hline
-	Норматив расходов по статье <<Прочие затраты>> & $\otherchargesratesymbol$ & \otherchargesratevalue \\
-
-	\hline
-	Норматив расходов по статье <<Накладные расходы>> & $\overheadratesymbol$ & \overheadratevalue \\
-
-	\hline
-	Уровень рентабельности & $\profitabilityratesymbol$ & \profitabilityratevalue \\
-
-	\hline
-	Ставка НДС & $\vatratesymbol$ & \vatratevalue \\
-
-	\hline
-	Норматив затрат на освоение ПО & $\deploymentratesymbol$ & \deploymentratevalue \\
-
-	\hline
-	Норматив затрат на сопровождение ПО & $\maintenanceratesymbol$ & \maintenanceratevalue \\
-
-	\hline
-	\end{tabular}
-\end{table}
-
-Перед определением сметы затрат на разработку программного средства необходимо определить его объём. Однако, на стадии ТЭО нет возможности рассчитать точные объемы функций, вместо этого с помощью применения действующих нормативов рассчитываются прогнозные оценки. 
-
-В качестве метрики измерения объема программных средств используется строка их исходного кода (LOC -- lines of code). Данная метрика широко распространена, поскольку она непосредственно связана с конечным продуктом, может применяться на всём протяжении проекта и, кроме того, может использоваться для сопоставления размеров программного обеспечения. Далее под строкой исходного кода будем понимать количество исполняемых операторов.
-
-Расчет объема функций программного средства и общего объема приведен в таблице~\ref{table:economics:labouriousness:function_sizes}. 
+Расчет объема функций программного средства и общего объема приведен в таблице~\ref{table:economics:labouriousness:function_sizes}.
 
 \begin{table}[!ht]
 \caption{Перечень и объём функций программного модуля}
@@ -137,7 +65,7 @@
 	Объём функции, LoC \\
   
 	\hline 
-	101 & Организация ввода информации & \num{100} \\
+	101 & Организация ввода информации & \num{300} \\
 
 	\hline
 	102 & Контроль, предварительная обработка и ввод информации & \num{500} \\
@@ -146,25 +74,10 @@
 	109 & Организация ввода/вывода информации в интерактивном режиме & \num{190} \\
 
 	\hline
-	111 & Управление вводом/выводом & \num{2600} \\
+	111 & Управление вводом/выводом & \num{600} \\
 
 	\hline
-	204 & Обработка наборов и записей базы данных & \num{1900} \\
-
-	\hline
-	207 & Манипулирование данными & \num{8000} \\
-
-	\hline
-	208 & Организация поиска и поиск в БД & \num{7500} \\
-
-	\hline
-	304 & Обслуживание файлов & \num{500} \\
-
-	\hline
-	305 & Обработка файлов & \num{800} \\
-
-	\hline
-	309 & Формирование файла & \num{1000} \\
+	207 & Манипулирование данными & \num{4000} \\
 
 	\hline
 	506 & Обработка ошибочных и сбойных ситуаций & \num{500} \\
@@ -173,10 +86,10 @@
 	507 & Обеспечение интерфейса между компонентами & \num{750} \\
 
 	\hline
-	601 & Отладка прикладных программ в интерактивном режиме & \num{4300} \\
+	601 & Отладка прикладных программ в интерактивном режиме & \num{1300} \\
 
 	\hline
-	707 & Графический вывод результатов & \num{300} \\
+	707 & Графический вывод результатов & \num{4500} \\
 
 	\hline
 	 & Общий объем & \totallocfactor \\
@@ -185,28 +98,41 @@
 	\end{tabular}
 \end{table}
 
-Исходя из определенной 3-ей категории сложности и общего объема ПС $\totalloc = \totallocfactor$, нормативная трудоемкость $\normativelaboriousness = \normativelaboriousnessfactor~\text{чел./д.}$~\cite[приложение 3]{palitsyn}. Перед определением общей трудоемкости разработки необходимо определить несколько коэффициентов.
+В	связи с использованием более совершенных средств автоматизации объемы функций были уменьшены и уточненный объем программного модуля составил 10500 LОС вместо 11640 LОС.
 
-Коэффициент сложности, который учитывает дополнительные затраты труда, связанные с обеспечением интерактивного доступа и хранения, и поиска данных в сложных структурах~\cite[приложение 4, таблица П.4.2]{palitsyn}
+Программный модуль относится ко второй категории сложности, и, следовательно, нормативная трудоемкость составит $\humandaysamount$ чел./дн.
 
+Нормативная трудоемкость служит основой для определения общей трудоемкости разработки программного модуля, который определяется по формуле:
 \begin{equation}
-	\complexity = 1 + \sum_{i=1}^{n} \text{К}_i = 1 + \num{0.06} + \num{0.07} = \complexityfactor,
+	\totallaboriousness = \normativelaboriousness \cdot \complexity \cdot \stdmodules \cdot \novelty,
 \end{equation}
 \begin{explanation}
-где & $ \text{К}_i $ & коэффициент, соответствующий степени повышения сложности за счет конкретной характеристики;\\
+где & $ \normativelaboriousness $ & коэффициент, соответствующий степени повышения сложности за счет конкретной характеристики;\\
+& $ \stdmodules $ & поправочный коэффициент, учитывающий степень использования при разработке стандартных модулей;\\
+& $ \novelty $ & коэффициент, учитывающий степень новизны программного модуля;\\
+& $ \complexity $ & коэффициент, учитывающий сложность программного модуля.
+\end{explanation}
+
+Коэффициент сложности программного модуля $ \complexity $ рассчитывается по формуле:
+\begin{equation}
+	\complexity = 1 + \sum_{i=1}^{n} \text{К}_i,
+\end{equation}
+\begin{explanation}
+где & $ \text{К}_i $ & нормативная трудоемкость разработки программного модуля (\num{78} чел./дн.);\\
 & $ n $ & количество учитываемых характеристик.
 \end{explanation}
 
-Коэффициент $\stdmodules$, учитывающий степень использования при разработке стандартных модулей, для разрабатываемого приложения, в котором степень охвата планируется на уровне около 50\%, примем равным \num{0.7}~\cite[приложение 4, таблица П.4.5]{palitsyn}.
+Следовательно, коэффициент сложности программного модуля составит: $\complexity$ = 1 + \num{0.6} + \num{0.7} = $\complexityfactor$.
 
-Коэффициент новизны разрабатываемого программного средства $\novelty$ примем равным \noveltyfactor, так как разрабатываемом программное средство принадлежит определенному параметрическому ряду существующих программных средств~\cite[приложение 4, таблица П.4.4]{palitsyn}.
+Коэффициенты использования стандартных модулей и новизны программного модуля, составят $\stdmodules$ = $\stdmodulesvalue$ и $\novelty$ = $\noveltyvalue$ соответственно.
 
-Исходя из выбранных коэффициентов, общая трудоемкость разработки $ \totallaboriousness = \normativelaboriousness \cdot \complexity \cdot \stdmodules \cdot \novelty = \normativelaboriousnessfactor \cdot \complexityfactor \cdot \stdmodulesfactor \cdot \noveltyfactor = \totallaboriousnessfactor~\text{чел./д.}$
+Таким образом, общая трудоемкость разработки программного модуля составит: $\totallaboriousness$ = $\humandaysamount$ $\cdot$ $\stdmodulesvalue$ $\cdot$ $\noveltyvalue$ $\cdot$ $\complexityfactor$ = $\totallaboriousnessvalue$ чел./дн.
 
-Для расчета срока разработки проекта примем число разработчиков $\developersnumber = \developersnumberfactor$. Исходя из комментария к постановлению Министерства труда и социальной защиты Республики Беларусь от 05.10.16 №54 <<Об установлении
-расчетной нормы рабочего времени на 2017 год>>~\cite{labour_calendar}, эффективный фонд времени работы одного человека составит
+В соответствии с договором срок разработки ‒ 1,5 месяца (0,16 г.).
+
+Эффективный фондвремени работы одного человека рассчитывается по формуле:
 \begin{equation}
-	\effectivetimefund = \daysinyear - \holidays - \weekends - \vacationdays = \num{\daysInYear} - \num{\redLettersDaysInYear} - \num{\weekendDaysInYear} - \num{\vacationDaysInYear} = \num{\workingDaysInYear}~\text{д.},
+	\effectivetimefund = \daysinyear - \holidays - \weekends - \vacationdays = \num{\daysInYear} - \num{\redLettersDaysInYear} - \num{103} - \num{24} = \num{229}~\text{д.},
 \end{equation}
 \begin{explanation}
 где & $ \text{Д}_\text{г} $ & количество дней в году;\\
@@ -215,56 +141,51 @@
 & $ \text{Д}_\text{о} $ & количество дней отпуска.
 \end{explanation}
 
-Тогда трудоемкость разработки проекта
+Численность исполнителей проекта($\executorsamount$) рассчитывается по формуле:
 \begin{equation}
-	\developmenttime = \frac{\totallaboriousness}{\developersnumber \cdot \effectivetimefund} = \frac{\totallaboriousnessfactor}{\developersnumberfactor \cdot \effectivetimefundfactor} = \developmenttimeyearsfactor~\text{г.} = \developmenttimefactor~\text{д.}
+	\developersnumber = \frac{\totallaboriousness}{\developmenttime \cdot \effectivetimefund} = \frac{\num{49}}{\num{0,16} \cdot \num{229}} = \num{2}~\text{чел.},
 \end{equation}
+\begin{explanation}
+где & $\totallaboriousness$ & общая трудоемкость разработки проекта, (чел./дн.);\\
+& $\developmenttime$ & срок разработки проекта, (лет);\\
+& $\effectivetimefund$ & эффективный фондвремени работы одного человека.
+\end{explanation}
 
-Исходя из того, что разработкой будет заниматься $\developersnumberfactor$ человека, можно запланировать фонд рабочего времени для каждого исполнителя
-\begin{equation}
-	\developertimefundsymbol = \frac{\developmenttime}{\developersnumber} = \frac{\developmenttimefactor}{\developersnumberfactor} \approx \developertimefundvalue~\text{д}.
-\end{equation}
+Разработкой программного модуля заказа услуг медицинского учреждения вуза занимаются двое исполнителей: программист 2 кат. и инженер-программист.
+
+
 
 \subsection{Расчет сметы затрат}
 \label{sec:economics:estimate}
 
 Основной статьей расходов на создание ПО является заработная плата разработчиков проекта. Информация об исполнителях перечислена в таблице~\ref{table:economics:estimate:employees}. Кроме того, в таблице приведены данные об их тарифных разрядах, приведены разрядные коэффициенты, а также по формулам~\ref{eq:economics:estimate:month_wage} и~\ref{eq:economics:estimate:hour_wage} рассчитаны месячный и часовой оклады.
 
-\begin{equation}
-\label{eq:economics:estimate:month_wage}
-	\text{T}_\text{м} = \text{T}_\text{м}^1 \cdot \text{T}_\text{к},
-\end{equation}
-\begin{equation}
-\label{eq:economics:estimate:hour_wage}
-	\text{T}_\text{ч} = \frac{\text{T}_\text{м}}{\text{Ф}_\text{р}},
-\end{equation}
-\begin{explanation}
-где & $ \text{T}_\text{м} $ & месячный оклад;\\
-	& $ \text{T}_\text{м}^1 $ & тарифная ставка 1-го разряда (положим ее равной \num{\firstratetariff} \byn);\\
-	& $ \text{T}_\text{к} $ & тарифный коэффициент;\\
-	& $ \text{T}_\text{ч} $ & часовой оклад;\\
-	& $ \text{Ф}_\text{р} $ & среднемесячная норма рабочего времени (в 2017 г. составляет \num{168.3} ч.~\cite{labour_calendar}).
-\end{explanation}
-
 \begin{table}[!ht]
   \caption{Работники, занятые в проекте}
   \label{table:economics:estimate:employees}
-  \begin{tabular}{| >{\raggedright}m{0.3\textwidth} 
-                  | >{\centering}m{0.09\textwidth} 
+  \begin{tabular}{| >{\raggedright}m{0.2\textwidth} 
+                  | >{\centering}m{0.2\textwidth} 
                   | >{\centering}m{0.18\textwidth} 
                   | >{\centering}m{0.15\textwidth} 
                   | >{\centering\arraybackslash}m{0.15\textwidth}|}
 	\hline
-	{\begin{center}Исполнители\end{center}} & Разряд & Тарифный коэффициент & Месячный оклад, \byn & Часовой оклад, \byn \\
+	{\begin{center}Исполнители\end{center}} & Эффективный фонд времени работы, дней & Тарифный коэффициент & Месячный оклад, \byn & Тарифная заработная плата, \byn \\
 
 	\hline
-	Руководитель проекта & 17 & \num{3.98} & \employeeamonthwage & \employeeahourwage \\
+	Фронт-энд разработчик & 35 & \num{3.98} & \num{3150} & \num{18.73} \\
 
 	\hline
-	Ведущий инженер-программист & 15 & \num{3.48} & \employeebmonthwage & \employeebhourwage\\
+	Тестировщик & 20 & \num{3.48} & \num{1200} & \num{7.13}\\
 
 	\hline
-	Инженер-программист II категории & 11 & \num{2.65} & \employeecmonthwage & \employeechourwage\\
+	Всего & 55 & & 4350 &\\
+
+	\hline
+	Премия (30\%) & & & 1305 &\\
+
+	\hline
+	Основная заработная плата & & & 5655 &\\
+	
 	\hline
   \end{tabular}
 \end{table}

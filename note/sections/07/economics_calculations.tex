@@ -1,4 +1,4 @@
-\input{sections/07_economics_initial_data}
+\input{sections/07/economics_initial_data}
 
 \FPeval{\totalProgramSizeCorrected}{\totalProgramSize}
 \newcommand{\totallocfactor}{\num{\totalProgramSizeCorrected}}
@@ -6,6 +6,11 @@
 \newcommand{\additionalcomplexityfactor}{\num{\additionalComplexity}}
 \FPeval{\complexityFactor}{clip(1 + \additionalComplexity)}
 \newcommand{\complexityfactor}{\num{\complexityFactor}}
+
+\newcommand{\humandaysamount}{78}
+\newcommand{\stdmodulesvalue}{0,6}
+\newcommand{\noveltyvalue}{0,8}
+\newcommand{\totallaboriousnessvalue}{49}
 
 \newcommand{\stdmodulesfactor}{\num{\stdModuleUsageFactor}}
 \newcommand{\noveltyfactor}{\num{\noveltyFactor}}
