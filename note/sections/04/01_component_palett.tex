@@ -208,7 +208,7 @@ const topParent = $$(this.getTopParentView().config.master)
 
 const gridId = $$((topParent.config).gridId);
 
-const newElement = <any>savePreset(this.getValue(), (<any>$$(gridId))
+const newElement = savePreset(this.getValue(), $$(gridId)
   .getSerializedCollection());
 this.getTopParentView().hide();
 
@@ -269,8 +269,8 @@ const saveAndRender = (source: any, grid: ComponentsLayout) => {
   let item = { id, ...source };
   
   if (!item.parentId) {
-    const width = <number>item.width || 0;
-    const height = <number>item.height || 0;
+    const width = item.width || 0;
+    const height = item.height || 0;
   
     const offsetX = Number(item.left + (width / 2));
     const offsetY = Number(item.top + (height / 2));
@@ -301,3 +301,5 @@ function removePreset(result: any, id: string | number) {
   }
 }
 \end{lstlisting}
+
+Резюмируя, можно сделать вывод, что был разработан гибкий инструмент для использования предопределенных наборов компонентов, предоставляющий функциональность как добавления и применения пресетов, так и их удаления.

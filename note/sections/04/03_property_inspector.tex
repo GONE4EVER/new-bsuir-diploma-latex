@@ -1,0 +1,283 @@
+\subsection{Разработка инспектора свойств}
+\label{sec:development:property_inspector}
+
+Инспектор свойств является панелью, содержащей множество вкладок, поэтому были использованы такие базовые графические компоненты, предоставляемые библиотекой Webix, как:
+
+\begin{itemize}
+    \item TabView - для дозирования количества одновременно отображаемой информации путем предоставления доступа к ее частям посредством разделения на страницы;
+    \item Accordion - для группирования отображаемой информации в логически или технически обусловленные группы свойств.
+\end{itemize}
+
+Конфиг компонента представляет собой набор <<страниц>>, реализованный посредством компонента TabView. Каждая страница содержит в себе компонент Accordion, позволяющий манипулировать отображением собственного содержимого.
+
+\begin{lstlisting}
+this.addView({
+  rows: [
+    undoRedoConfig,
+    { ...getSearchPanel() },
+    {
+      id: webix.uid(),
+      borderless: true,
+      view: 'tabview',
+      cells: [
+        {
+          header: 'Data',
+          ...getAccDataConfig()
+        }
+        {
+          header: 'Style',
+          ...getAccStyleConfig(this)
+        }
+        {
+          header: 'Code',
+          ...getElementCodeConfig()
+        }
+      ]
+    }
+  ]
+})
+\end{lstlisting}
+
+Компонент Accordion, использующийся с целью отображения свойств выделенных компонентов, в свою очередь использует специальный компонент библиотеки Webix, называющийся <<property>>, который был специально создан для подобных целей.
+
+Метод onAfterEditStop вызывается по окончании пользователем ввода данных в поле свойства. Здесь осуществляются проверки введенных данных на валидность и их дальнейшая обработка.
+
+На случай ввода неверных данных предусмотрены дополнительные обработчики и средства вывода информации, с целью уведомить пользователя об ошибке.
+
+\begin{lstlisting}
+{
+  id: getSettingsId(),
+  view: 'property',
+  onContext: {},
+  elements: getElements(),
+  autoheight: true,
+  nameWidth: 120,
+  on: {
+    onAfterEditStop(state, editor): void {
+      if (Number.isInteger(Number(state.value))) {
+        state.value = Number(state.value);
+      }
+
+      if (Number(state.value) !== state.old) {
+        let view = <any>this.getTopParentView()
+          .getLastActiveComponent();
+
+        if (view) {
+          if (editor.id === 'url') {
+            view.clearAll();
+            view.config.data = null;
+          } else if (editor.id === 'top' || editor.id === 'left') {
+            view.getParentView().config[editor.id] = state.value;
+            view.getParentView()
+                .resize();
+          }
+
+          // visible component editing
+          view.config[editor.id] = state.value;
+
+          if (view.setTemplate) {
+            view.setTemplate();
+          }
+          if (view.refresh) {
+            view.refresh();
+          }
+
+          view.resize();
+          view.callEvent('onBlur');
+          view.callEvent('onFocus', [view]);
+        } else {
+          webix.message({
+            text: 'Attempt to change property of not existing item',
+            type: 'error',
+            expire: 2000
+          });
+        }
+      }
+    }
+  }
+}
+\end{lstlisting}
+
+Основным инструментом для работы с компонентами является панель свойств, отображающая свойства выделенного компонента.
+
+\begin{lstlisting}
+definePropertyTable(viewConfig) {
+  let elements = [];
+  let propertyTable = this.$$(getSettingsId());
+
+  this.$$(getAccStyleId()).config.data = viewConfig;
+
+  const elementCodeView = this.$$(getElementCodeId());
+
+  if (viewConfig) {
+      if (viewConfig.view === 'datatable') {
+          elements = getDatatableElements();
+      } else {
+        Object.entries(viewConfig)
+          .forEach(([key]) => {
+            if (
+              key === 'id'
+              || key === '_inner'
+              || key === 'template'
+            ) {
+              return;
+            }
+
+            let type = 'text';
+            if (key.search(/color/gi) !== -1) {
+              type = 'color';
+            }
+
+            elements.push({
+              id: key,
+              label: key,
+              type
+            });
+        });
+      }
+  }
+
+  elementCodeView.setValue(`${getPrettyJson(viewConfig)}`);
+  elementCodeView.refresh();
+
+  propertyTable.define('elements', elements);
+
+  let parsedItem = getParsedConfig(viewConfig);
+
+  propertyTable.setValues(parsedItem);
+
+  propertyTable.resize();
+}
+\end{lstlisting}
+
+Чтобы после выделения пользователем компонента его свойства отображались во вкладке свойства инспектора свойств необходимо было добавить в его метод инициализации соовтествующий обработчик события.
+
+\begin{lstlisting}
+() => {
+  if (!this.config.gridId) { return; }
+  eventHandlerInit(this.config.gridId);
+  const grid = $$(this.config.gridId);
+
+  grid.attachEvent('onMovableElementSelect', target) =>{
+    focusEventHandler(target);
+    this.setLastActiveComponent(target);
+    let configCopy = null;
+
+    try {
+      configCopy = webix.copy(target.config);
+    } catch (e) {
+      configCopy = webix.clone(target.config);
+    }
+    this.definePropertyTable(configCopy);
+
+    if (target.config.view === 'datatable') {
+      showColumnsForm(this, target);
+    } else {
+      hideColumnsForm(this);
+    }
+  });
+}
+\end{lstlisting}
+
+При срабатывании события onMovableElementSelect происходит копирование свойств компонента с помощью метода библиотеки. Функции showColumnsForm и hideColumnsForm отвечают за управление отображением дополнительной вкладки свойств, доступной лишь после выделения особого компонента, предоставляемого библиотекой Webix, нужнающегося в дополнительной конфигурации - Datatable.
+
+Данная особенность обусловлена особой струкурой компонента и соответсвующего ему DOM-элемента.
+
+Помимо всего вышеперечисленного, инспектор свойств предоставляет возможность поиска свойства как по ключу, так и по значению, что значительно упрощает работу с комплексными компонентами, содержащими большое количесво свойств.
+
+Для этого в самом верху инспектора свойств расположена панель ввода с соовтествующей иконкой.
+
+Далее будет представлен код, описывающий логику данного компонента.
+
+\begin{lstlisting}
+const tabviewSearch = {
+  id: getSearchPanelId(),
+  view: 'search',
+  hotkey: 'enter',
+  placeholder: 'Search any property',
+  on: {
+    onChange() {
+      getInputValue.call(this);
+    },
+    onFocus() {
+      // blocking events in order to prevent starting search
+      this.blockEvent();
+      this.getNode().children[0].children[0].select();
+      this.unblockEvent();
+    },
+    onEnter() {
+      getInputValue.call(this);
+    }
+  }
+};
+\end{lstlisting}
+
+Секция on содержит обработчики одноименных событий. Свойство hotkey указывает горячую клавишу для вызова события onEnter, которое осуществляет вызов функции getInputValue с контектом объекта компонента поиска.
+
+Функция getInputValue инкапсулирует функциональность поиска данных по ключу и значению. Ее код преставлен ниже.
+
+\begin{lstlisting}
+function getInputValue(): void {
+  const list = <webix.ui.list>this.getTopParentView().$$(getSearchListId());
+  const val: string = this.getTopParentView().$$(getSearchPanelId()).getValue().toLowerCase()
+    .trim();
+  const store: object = getParsedConfig(this.getTopParentView().$$(getAccStyleId()).config.data);
+
+  list.clearAll();
+
+  if (store && val) {
+    this.getTopParentView().$$(getSearchListId()).clearAll();
+
+    Object.entries(store).forEach(([key, value]) => {
+      if (JSON.stringify(value) !== undefined
+        && (key.toLowerCase().indexOf(val) !== -1
+          || JSON.stringify(value).indexOf(val) !== -1)
+      ) {
+        if (typeof value === 'string') {
+          value = value.trim();
+        }
+        list.parse({ key, value }, '');
+      }
+    });
+  }
+
+  this.blur();
+  list.getParentView().getParentView().show();
+  list.getParentView().define({ collapsed: false });
+  list.getParentView().refresh();
+}
+\end{lstlisting}
+
+По окончании выполнения вышеуказанных в функции getInputValue действий, все найденные свойства добавятся в содержимое компонента, отображающего результаты поиска в виде списка. Вкладка с результатами поиска будет открыта автоматически, что определенно благоприятно скажется на UX.
+
+Функциональность самого списка результатов поиска не ограничивается одним лишь отображением самих результатов поиска - при нажатии на один из отображаемых результатов система автоматически отобразит пользователю нужную вкладку и, более того, сразу откроет поле с искомым свойтсвом в режиме редактирования.
+
+Ниже будет предоставлен фрагмент кода с конфигом данного компонента, где будут видны некоторые детали реализации.
+
+\begin{lstlisting}
+const searchListId = 'AC:settings:searchList';
+
+const getSearchListId = (): string => searchListId;
+
+const searchListConfig = {
+  id: getSearchListId(),
+  template: '{#key#: #value#}',
+  select: true,
+  view: 'list',
+  on: {
+    onItemClick(itemId): void {
+      const accordion = this.getTopParentView().$$(getScrollViewId()).getParentView().getParentView();
+      accordion.define('collapsed', false);
+
+      let key = this.getItem(itemId).key;
+
+      if (key !== 'id') {
+        this.getTopParentView().$$(getSettingsId()).edit(this.getItem(itemId).key);
+      }
+    }
+  },
+  data: []
+}
+\end{lstlisting}
+
+Подобная реализация также определенно благоприятно скажется на UX, ведь в перспективе пользователю необходимо будет совершать значительно меньше действий для достижения желаемого.

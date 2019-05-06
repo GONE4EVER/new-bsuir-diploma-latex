@@ -1,7 +1,10 @@
 \subsection{Разработка грида}
 \label{sec:development:grid}
 
-Грид выступает инструментов для отображения компонентов, перетянутых с палитры компонентов. Это основной компонент, занимающий большую часть экрана. Он представляет собой разметку с сеткой, размер которой может быть изменен.
+Грид выступает инструментом для отображения компонентов, перетянутых с палитры компонентов. Это основной компонент, занимающий большую часть экрана. Он представляет собой разметку с сеткой, размер которой может быть изменен.
+
+\subsubsection{Алгоритм Drag-n-drop}
+\
 
 Создание и перемещение компонентов осуществляется методами, реализующими алгоритм Drag-n-drop. Для этого был разработан объект Movable, методы которого предоставлет методы $\$$dragCreate, $\$$dragPos и $\$$dragDestroy.
 
@@ -40,8 +43,8 @@ $dragDestroy() {
     .getBoundingClientRect();
   let view = this.master;
 
-  let diffX = <number>master.x - gridBounds.x;
-  let diffY = <number>master.y - gridBounds.y;
+  let diffX = master.x - gridBounds.x;
+  let diffY = master.y - gridBounds.y;
 
   let { left, top } = stickToGrid(this.master,diffX, diffY, grid.config.separation);
 
@@ -77,7 +80,7 @@ $dragPos(pos, e) {
   this.master.callEvent('onViewMove', [pos, e]);
 
   const grid = this.master.getParentView();
-  const gridBounds = <BoundingClientRect>grid.$view.getBoundingClientRec();
+  const gridBounds = grid.$view.getBoundingClientRec();
 
   let context = webix.DragControl.getContext();
   let control = context.source;
@@ -89,8 +92,8 @@ $dragPos(pos, e) {
 
   const master = this.master.getChildViews()[0.$view.getBoundingClientRect();
 
-  let diffX = <master.left - gridBounds.x;
-  let diffY = <master.top - gridBounds.y;
+  let diffX = master.left - gridBounds.x;
+  let diffY = master.top - gridBounds.y;
 
   let { left, top } = stickToGrid(this.master, diffX, diffY, grid.config.separation);
 
@@ -107,6 +110,9 @@ $dragPos(pos, e) {
   }
 }
 \end{lstlisting}
+
+\subsubsection{Разработка сетки грида и реализация <<магнитной привязки>>}
+\
 
 Сетка грида выполняет не только декоративную функцию и несколько упрощает визуальное выравнивание компонентов, но и обладает свойством магнитной привязки. Алгоритм отрисовки сетки представлен ниже.
 
@@ -148,7 +154,7 @@ drawCanvasGrid() {
 Алгоритм рисования тени предполагает вызов перерисовки тени на каждое событие движения мыши.
 
 \begin{lstlisting}
-const drawShadow = (htmlView, left, top, grid): void => {
+const drawShadow = (htmlView, left, top, grid) => {
   const shadow = document.createElement('div');
 
   const viewRect = htmlView.children[0.getBoundingClientRect();
@@ -163,7 +169,7 @@ const drawShadow = (htmlView, left, top, grid): void => {
   grid.appendChild(shadow);
 }
 
-const removeShadowGrid = (): void => {
+const removeShadowGrid = () => {
   let div = document.getElementsByClassName('grid-shadow')[0];
   div.parentNode.removeChild(div);
 };
@@ -203,7 +209,7 @@ webix.DragControl.addDrop(self.$view, {
 })
 \end{lstlisting}
 
-Добавление элемента на грид осуществляется методом внутренним приватным методом $\_$addMovableElement, который добавляет внутренние свойства к конфигу компонента, необходимые для дальнейшей работы, добавляет необходимые обработчики событий как самому компоненту, так и всем его дочерним.
+Добавление элемента на грид осуществляется методом внутренним приватным методом $\_$addMovableElement, который добавляет внутренние свойства к конфигу компонента, необходимые для дальнейшей работы.
 
 \begin{lstlisting}
 _addMovableElement(config, ev) {
@@ -270,3 +276,14 @@ _addMovableElement(config, ev) {
   return config;
 }
 \end{lstlisting}
+
+Метод также добавляет необходимые обработчики событий как самому компоненту,так и всем его дочерним, что позволяет быть уверенным, что компоненты будут вести себя одинакого в разных сценариях использования.
+
+Весь алгоритм в целом и некоторые его аспекты показаны на рисунке~\ref{sec:dev:composition}
+
+\begin{figure}[ht]
+  \centering
+    \includegraphics[scale=0.65]{composition.pdf}
+    \caption{Алгоритм компоновки графических компонентов}
+    \label{sec:dev:composition}
+\end{figure}
