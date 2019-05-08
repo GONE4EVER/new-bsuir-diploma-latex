@@ -1,7 +1,7 @@
 \section{Тестирование и проверка работоспособности ПС}
 \label{sec:testing}
 
-В данном разделе проведем динамическое ручное тестирование. В таблице~\ref{table:testing:positive} приведен список тестовых случаев, относящихся к позитивному тестированию, в таблице~\ref{table:testing:negative} -- к негативному.
+В данном разделе проведем динамическое ручное тестирование. В таблице~\ref{table:testing:test_cases} приведен список тестовых случаев, относящихся к позитивному тестированию, в таблице~\ref{table:testing:negative} -- к негативному.
 
 % Зачем: свой счетчик для нумерации тестов.
 \newcounter{testnumber}
@@ -11,105 +11,311 @@
 \renewcommand{\labelenumi}{\arabic{enumi})}
 \renewcommand{\labelenumii}{\asbuk{enumii})}
 
-\begin{landscape}
-	\begin{longtable}{|>{\centering}m{0.15\textwidth}
-					  |p{0.8\textwidth}
-					  |p{0.34\textwidth}
-					  |>{\centering\arraybackslash}m{0.16\textwidth}|} 
-	\caption{Тестовые случаи позитивного тестирования}
-	\label{table:testing:positive}\\
+\begin{longtable}{|>{\centering}m{0.065\textwidth}
+  |p{0.36\textwidth}
+  |p{0.307\textwidth}
+  |>{\centering\arraybackslash}m{0.163\textwidth}|} 
+\caption{Тестовые случаи для разрабатываемого программного средства}
+\label{table:testing:test_cases}\\
 
-	\hline
-	\begin{minipage}{1\linewidth}
-		\centering Модуль (экран)
-	\end{minipage} & 
-	\begin{minipage}{1\linewidth}
-		\centering Описание тестового случая
-	\end{minipage} & 
-	\begin{minipage}{1\linewidth}
-		\centering Ожидаемые результаты
-	\end{minipage} & 
-	\centering\arraybackslash Тестовый случай пройден? \endfirsthead
+\hline
+\begin{minipage}{1\linewidth}
+  \centering №
+\end{minipage} & 
+\begin{minipage}{1\linewidth}
+	\centering Описание тестового случая
+\end{minipage} & 
+\begin{minipage}{1\linewidth}
+	\centering Ожидаемые результаты
+\end{minipage} & 
+\centering\arraybackslash Полученный результат \endfirsthead
 
-	\caption*{Продолжение таблицы \ref{table:testing:positive}}\\\hline
-	\centering 1 & \centering 2 & \centering 3 & \centering\arraybackslash 4 \\\hline \endhead
+\caption*{Продолжение таблицы \ref{table:testing:test_cases}}\\\hline
+\centering № & \centering Описание тестового случая & \centering Ожидаемые результаты & \centering\arraybackslash Полученный результат \\\hline \endhead
 
-	\hline
-	\centering 1 & \centering 2 & \centering 3 & \centering\arraybackslash 4 \\
+\hline
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Перетягивание обычного компонента на грид}.
+  \begin{enumerate}
+    \item нажать левую кнопку мыши на компоненте, не относящемся к типу <<layout>>;
+		\item зажать левую кнопку мыши на компоненте, не относящемся к типу <<layout>>;
+		\item перенянуть на грид.
+		\item отпустить левую кнопку мыши.
+	\end{enumerate}
+\end{minipage} &
+Компонент не отрисовывается на гриде. Отображается сообщение об ошибке, что компонент не относится к типу <<layout>>. & Пройдено \\
+\hline
 
-	\hline
-	Аккаунт &
-	\begin{minipage}[t]{1\linewidth}
-		\testnumber. \textbf{Регистрация}.\newline
- 		Предусловие: необходим существующий ящик электронной почты.
- 		\begin{enumerate}
- 			\item Нажать кнопку <<Регистрация>> на главной странице ПС.
- 			\item Ввести адрес электронной почты.
- 			\item Ввести пароль "12345678".
- 			\item Ввести пароль из предыдущего пункта в поле подтверждения пароля.
- 			\item Нажать кнопку <<Зарегистрироваться>>.
- 			\item Проверить ящик электронной почты, дождаться получения электронного письма.
- 			\item Перейти по ссылке из полученного письма.
- 		\end{enumerate}
- 	\end{minipage} &
-	Отображается страница регистрации. На указанный адрес электронной почты приходит письмо со ссылкой. При переходе по ссылке появляется сообщения <<Аккаунт подтвержден>>. & Да \\
-	\hline
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Выделение лэйаута}.
+  \begin{enumerate}
+    \item перетянуть <<Horizontal layout>> на грид;
+    \item нажать левой кнопкой мыши на созданный <<Horizontal layout>>,.
+  \end{enumerate}
+\end{minipage} &
+Границы компонента окрашиваются прерывистой зеленой линией, и на границе появляются точки для изменения размеров компонента. & Пройдено \\
+\hline
 
-	Аккаунт &
-	\begin{minipage}[t]{1\linewidth}
-		\testnumber. \textbf{Аутентификация}.\newline
-		Предусловие: необходим зарегестрированный в системе аккаунт.
-		\begin{enumerate}
-			\item Нажать кнопку <<Вход>> на главной странице ПС.
-			\item Ввести адрес электронной почты и пароль аккаунта.
-			\item Нажать кнопку <<Войти>>.
-		\end{enumerate}
- 	\end{minipage} &
-	Отображается страница аутентификации. По нажатию кнопки <<Войти>> открывается главная страница зарегистрированного пользователя. & Да \\
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Добавление компонента в лэйаут}.
+  \begin{enumerate}
+    \item перетянуть <<Horizontal layout>> на грид;
+    \item перетянуть <<combo>> в созданный <<Horizontal layout>>;
+  \end{enumerate}
+\end{minipage} &
+Компонент <<combo>> будет отрисован внутри созданного <<Horizontal layout>>. & Пройдено \\
 
-	Аккаунт &
-	\begin{minipage}[t]{1\linewidth}
-		\testnumber. \textbf{Редактирование профиля}.\newline
-		Предусловие: необходимо произвести аутентификацию.
-		\begin{enumerate}
-			\item Нажать кнопку <<Мой профиль>>.
-			\item Нажать кнопку <<Редактировать>>.
-			\item Изменить значения полей имени, фамилии, отчества, описания.
-			\item Обновить страницу.
-			\item Нажать кнопку <<Мой профиль>>.
-		\end{enumerate}
- 	\end{minipage} &
-	Открывается страница профиля пользователя. Открывается страница редактирования личной информации. В профиле отображается новая информация. & Да \\
-	\hline
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Выделение компонента внутри лэйаута}.
+  \begin{enumerate}
+    \item перетянуть <<Horizontal layout>> на грид;
+    \item перетянуть <<combo>> в созданный <<Horizontal layout>>;
+    \item нажать левой кнопкой мыши на созданный <<combo>>.
+  \end{enumerate}
+\end{minipage} &
+Границы компонента окрашиваются прерывистой зеленой линией, а на границе не появляются точки для изменения размеров компонента. & Пройдено \\
+\hline
 
-	\end{longtable}
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Редактирование компонента}.
+  \begin{enumerate}
+    \item перетянуть <<Horizontal layout>> на грид;
+    \item перетянуть <<combo>> в созданный <<Horizontal layout>>;
+    \item нажать левой кнопкой мыши на созданный <<combo>>;
+    \item открыть вкладку <<STYLE>> в инспекторе свойств;
+    \item нажать левой кнопкой мыши на  на значение поля <<width>>;
+    \item используя только цифры, ввести данные о новых размерах.
+    \item нажать кнопку <<Enter>>.
+  \end{enumerate}
+\end{minipage} &
+Компонент перерисуется в соответствии с введенными данными. & Пройдено \\
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Редактирование лэйаута}.
+  \begin{enumerate}
+    \item перетянуть <<Horizontal layout>> на грид;
+    \item перетянуть <<combo>> в созданный <<Horizontal layout>>;
+    \item выделить созданный <<Horizontal layout>>;
+    \item открыть вкладку <<STYLE>> в инспекторе свойств;
+    \item нажать левой кнопкой мыши на значение поля <<width>> или <<height>>;
+    \item используя только цифры, ввести данные о новых размерах;
+    \item нажать кнопку <<Enter>>.
+  \end{enumerate}
+\end{minipage} &
+Лэйаут и его дочерние элементы перерисовываются в соответствии с введенными данными. & Пройдено \\
+\hline
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Добавление компонента в конец непустого лэйаута}.
+  \begin{enumerate}
+    \item перетянуть <<Horizontal layout>> на грид;
+    \item перетянуть <<combo>> в созданный <<Horizontal layout>>;
+    \item перетянуть <<Datatable>> на созданный <<Horizontal layout>>.
+  \end{enumerate}
+\end{minipage} &
+Компонент <<Datatable>> будет отрисован крайним справа внутри созданного <<Horizontal layout>>. & Пройдено \\
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Добавление компонента перед определенным компонентов внутри непустого лэйаута}.
+  \begin{enumerate}
+    \item перетянуть <<Horizontal layout>> на грид;
+    \item перетянуть <<combo>> в созданный <<Horizontal layout>>;
+    \item перетянуть <<Datatable>> на созданный <<combo>>.
+  \end{enumerate}
+\end{minipage} &
+Компонент <<Datatable>> будет отрисован перед компонентом <<combo>> внутри созданного <<Horizontal layout>>. & Пройдено \\
+\hline
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Удаление компонента внутри лэйаута с одним дочерним компонентом}.
+  \begin{enumerate}
+    \item перетянуть <<Horizontal layout>> на грид;
+    \item перетянуть <<combo>> в созданный <<Horizontal layout>>;
+    \item нажать левой кнопкой мыши на созданный <<combo>>;
+    \item открыть вкладку <<STYLE>> в инспекторе свойств;
+    \item левой кнопкой мыши нажать на кнопку <<DELETE COMPONENT>>.
+  \end{enumerate}
+\end{minipage} &
+Компонент <<combo>> будет удален внутри созданного <<Horizontal layout>> Сам лэйаут останется на гриде. & Пройдено \\
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Удаление непустого лэйаута}.
+  \begin{enumerate}
+    \item перетянуть <<Horizontal layout>> на грид;
+    \item перетянуть <<combo>> в созданный <<Horizontal layout>>;
+    \item нажать левой кнопкой мыши на созданный <<Horizontal layout>>;
+    \item открыть вкладку <<STYLE>> в инспекторе свойств;
+    \item левой кнопкой мыши нажать на кнопку <<DELETE COMPONENT>>.
+  \end{enumerate}
+\end{minipage} &
+Компонент <<Horizontal layout>> будет удален с грида вместе с дочерним элементом <<combo>>. & Пройдено \\
+\hline
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Многоуровневая компоновка}.
+  \begin{enumerate}
+		\item перетянуть <<Horizontal layout>> на грид;
+		\item перетянуть <<Datatable>> в созданный <<Horizontal layout>>;
+		\item перенянуть <<vertical layout>> в созданный <<Horizontal layout>>;
+		\item перенянуть <<combo>> в созданный <<vertical layout>>;
+		\item перенянуть <<datepicker>> в созданный <<vertical layout>>.
+	\end{enumerate}
+\end{minipage} &
+Отображается компонент, состоящий из двух колонок: в первой <<Datatable>>, во второй в строки расположены: <<combo>> и <<datepicker>>.& Пройдено \\
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Появление тени от лэйаута на гриде}.
+  \begin{enumerate}
+		\item перетянуть <<Horizontal layout>> на грид;
+		\item перетянуть <<datepicker>> на созданный <<Horizontal layout>>;
+		\item зажать левую кнопку мыши на созданном <<Horizontal layout>>;
+		\item перетянуть лэйаут с зажатой левой кнопкой мыши в другое место грида.
+	\end{enumerate}
+\end{minipage} &
+Сзади компонента появляется <<тень>>.& Пройдено \\
+\hline
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Магнитная сетка}.
+  \begin{enumerate}
+		\item перетянуть <<Horizontal layout>> на грид;
+		\item перетянуть <<datepicker>> на созданный <<Horizontal layout>>;
+		\item зажать левую кнопку мыши на созданном <<Horizontal layout>>;
+		\item медленно перегивать лэйаут с зажатой левой кнопкой мыши;
+		\item отпустить левую кнопку мыши.
+	\end{enumerate}
+\end{minipage} &
+Сзади компонента появляется <<тень>>, двигающаяся по гриду с шагом, равным размеру ребра клетки грида. После отпускания левой кнопки мыши компонент помещен туда, куда падала его тень.& Пройдено \\
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Изменение позиции созданного непустого лэйаута}.
+  \begin{enumerate}
+		\item перетянуть <<Horizontal layout>> на грид;
+		\item перетянуть <<datepicker>> на созданный <<Horizontal layout>>;
+		\item зажать левую кнопку мыши на созданном <<Horizontal layout>>;
+		\item перетянуть лэйаут в другое место грида;
+		\item отпустить левую кнопку мыши.
+	\end{enumerate}
+\end{minipage} &
+Созданный на гриде <<Horizontal layout>> передвинут вмете с содержимым с начального положения.& Пройдено \\
+\hline
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Редактирование уникальных свойств компонентов}.
+  \begin{enumerate}
+		\item перетянуть <<Horizontal layout>> на грид;
+		\item перетянуть <<Leaf>> на созданный <<Horizontal layout>>;
+		\item нажать левой кнопкой мыши на созданный компонент <<Leaf>>;
+		\item открыть вкладку <<STYLE>> в инспекторе свойств;
+    \item левой кнопкой мыши нажать на значение свойства <<color>>;
+    \item нажать левой кнопкой мыши на нужный цвет в выпадающем колопикере.
+	\end{enumerate}
+\end{minipage} &
+В созданном компоненте <<Leaf>> изменится цвет шаблона.& Пройдено \\
+\hline
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Редактирование уникальных свойств компонентов}.
+  \begin{enumerate}
+		\item перетянуть <<Horizontal layout>> на грид;
+		\item перетянуть <<Leaf>> на созданный <<Horizontal layout>>;
+		\item нажать левой кнопкой мыши на созданный компонент <<Chart>>;
+		\item открыть вкладку <<STYLE>> в инспекторе свойств;
+    \item левой кнопкой мыши нажать на значение свойства <<type>>;
+    \item ввести строку <<pie>>;
+    \item нажать кнопку <<Enter>>;
+    \item ввести строку <<line>>;
+    \item нажать кнопку <<Enter>>.
+	\end{enumerate}
+\end{minipage} &
+В созданном компоненте <<Chart>> меняется тип графика сначала на <<pie>>, затем на <<line>>. Проверка соответсвия вида графика осуществляется согласно документации Webix.& Пройдено \\
+\hline
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Отображение дополнительных свойств компонента <<Datatable>>}.
+  \begin{enumerate}
+		\item перетянуть <<Horizontal layout>> на грид;
+		\item перетянуть <<Datatable>> на созданный <<Horizontal layout>>;
+		\item нажать левой кнопкой мыши на созданный компонент <<Datatable>>;
+		\item открыть вкладку <<STYLE>> в инспекторе свойств.
+	\end{enumerate}
+\end{minipage} &
+Во вкладке со свойствами появляется дополнительная вкладка для колонок компонента <<Datatable>>.& Пройдено \\
+\hline
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Переключение вкладок палитры компонентов}.
+  \begin{enumerate}
+		\item нажать на троеточие рядом со вкладкой <<All>> палитры компонентов;
+		\item в появившемся попапе нажать на <<Components>>;
+		\item нажать на троеточие рядом со вкладкой <<Components>> палитры компонентов;
+		\item в появившемся попапе нажать на <<Layouts>>;
+		\item нажать на троеточие рядом со вкладкой <<Layouts>> палитры компонентов;
+		\item в появившемся попапе нажать на <<Custom templates>>;
+	\end{enumerate}
+\end{minipage} &
+Происходит перерисовка содержимого списка палитры компонентов в соответствии с выбранной вкладкой.& Пройдено \\
+\hline
+
+\testnumber &
+\begin{minipage}[t]{1\linewidth}
+	\textbf{Сохранение пресета}.
+  \begin{enumerate}
+		\item перетянуть <<Horizontal layout>> на грид;
+		\item перетянуть <<Datatable>> на созданный <<Horizontal layout>>;
+		\item нажать на троеточие рядом со вкладкой <<All>> палитры компонентов;
+		\item в появившемся попапе нажать на <<Presets>>;
+		\item 
+	\end{enumerate}
+\end{minipage} &
+В созданном компоненте <<Chart>> изменится тип графика сначала на <<pie>>, затем на <<line>>. Проверка соответсвия вида графика осуществляется согласно документации Webix.& Пройдено \\
+\hline
+
+\end{longtable}
 
 
-	% Зачем: зануляем счетчик для следующей таблицы.
-	\setcounter{testnumber}{0}
-	
-	\begin{longtable}{|>{\centering}m{0.15\textwidth}
-					  |p{0.8\textwidth}
-					  |p{0.34\textwidth}
-					  |>{\centering\arraybackslash}m{0.16\textwidth}|} 
-	\caption{Тестовые случаи негативного тестирования}
-	\label{table:testing:negative}\\
+% Зачем: зануляем счетчик для следующей таблицы.
+\setcounter{testnumber}{0}
 
-	\hline
-	\centering Модуль (экран) & \centering Описание тестового случая & \centeringОжидаемые результаты & \centering\arraybackslash Тестовый случай пройден? \endfirsthead
+\begin{longtable}{|>{\centering}m{0.15\textwidth}
+  |p{0.8\textwidth}
+  |p{0.34\textwidth}
+  |>{\centering\arraybackslash}m{0.16\textwidth}|} 
+\caption{Тестовые случаи негативного тестирования}
+\label{table:testing:negative}\\
 
-	\caption*{Продолжение таблицы \ref{table:testing:negative}}\\\hline
-	\centering 1 & \centering 2 & \centering 3 & \centering\arraybackslash 4 \\\hline \endhead
+\hline
+\centering Модуль (экран) & \centering Описание тестового случая & \centeringОжидаемые результаты & \centering\arraybackslash Тестовый случай пройден? \endfirsthead
 
-	\hline
-	\centering 1 & \centering 2 & \centering 3 & \centering\arraybackslash 4 \\
-	\hline
+\caption*{Продолжение таблицы \ref{table:testing:negative}}\\\hline
+\centering 1 & \centering 2 & \centering 3 & \centering\arraybackslash 4 \\\hline \endhead
 
-	& & & \\
-	\hline
+\hline
+\centering 1 & \centering 2 & \centering 3 & \centering\arraybackslash 4 \\
+\hline
 
-	\end{longtable}
-\end{landscape}
+& & & \\
+\hline
+
+\end{longtable}
 
 % Зачем: возвращаем нумерацию перечислений как надо по стандарту.
 \renewcommand{\labelenumi}{\asbuk{enumi})}
