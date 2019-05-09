@@ -62,4 +62,45 @@ webix.ui({
 
 Свойство <<gravity>> нужно для задания пропорций, с которыми будут отображаться компоненты - например, в вышеуказанном коде палитра компонентов имеет фиксированную ширину 170 пикселей, а остальные два компонента делят оставшуюся ширину контейнера в соотношении 2 к 1.
 
+В проекте используются нововведения и синтаксис ES6~\cite{ecma_additional}, ввиду чего в проекте, в который будет интегрироваться данное программное средство, обязан использоваться Babel~\cite{babel}, иначе проект просто не будет работать. 
+
+Ниже будет представлен полный список использованных при разработке проекта зависимостей. 
+
+\begin{lstlisting}
+{
+	"dependencies": {
+		"body-parser": "^1.18.2",
+		"copy-webpack-plugin": "^4.5.1",
+		"css-loader": "^0.28.11",
+		"express": "^4.16.3",
+		"express-fileupload": "^0.4.0",
+		"file-loader": "^1.1.11",
+		"html-webpack-plugin": "^3.1.0",
+		"less": "^3.8.1",
+		"less-loader": "^4.1.0",
+		"style-loader": "^0.20.3",
+		"ts-loader": "^4.5.0",
+		"tslint": "^5.11.0",
+		"typescript": "^3.0.1",
+		"url-loader": "^1.0.1",
+		"webpack-dev-server": "^3.1.5"
+	},
+	"devDependencies": {
+		"babel-core": "^6.26.0",
+		"babel-loader": "^7.1.4",
+		"babel-plugin-module-resolver": "^3.1.1",
+		"babel-plugin-transform-object-rest-spread": "^6.26.0",
+		"babel-polyfill": "^6.26.0",
+		"babel-preset-env": "^1.6.1",
+		"eslint": "^4.19.1",
+		"eslint-plugin-import": "^2.9.0",
+		"eslint-xbsoftware": "git+https://bitbucket.org/xbsltd/eslint.git",
+		"extract-text-webpack-plugin": "^4.0.0-beta.0",
+		"resolve-url-loader": "^2.3.0",
+		"webpack": "^4.16.5",
+		"webpack-cli": "^2.0.13"
+	}
+}
+\end{lstlisting}
+
 Резюмируя всё вышесказанное, можно сделать вывод, что при разработке приложения применялись приемы, благоприятно воздействующие на UX, а также обеспечивающие более легкую разработку, возможное будущее расширение и поддержку приложения.

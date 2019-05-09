@@ -3,6 +3,44 @@
 
 В данном разделе проведем динамическое ручное тестирование. В таблице~\ref{table:testing:test_cases} приведен список тестовых случаев, относящихся как к позитивному, так и к негативному тестированию.
 
+Тестирование производилось при версиях зависимостей, указанных ниже. Ввиду того, что некоторые зависимости могли устареть, а некоторые их функции - перестать поддерживаться разработчиками пакета, стабильная работа на более поздних версиях пакетов не гарантируется.
+
+\begin{lstlisting}
+{
+	"dependencies": {
+      "body-parser": "^1.18.2",
+      "copy-webpack-plugin": "^4.5.1",
+      "css-loader": "^0.28.11",
+      "express": "^4.16.3",
+      "express-fileupload": "^0.4.0",
+      "file-loader": "^1.1.11",
+      "html-webpack-plugin": "^3.1.0",
+      "less": "^3.8.1",
+      "less-loader": "^4.1.0",
+      "style-loader": "^0.20.3",
+      "ts-loader": "^4.5.0",
+      "tslint": "^5.11.0",
+      "typescript": "^3.0.1",
+      "url-loader": "^1.0.1",
+      "webpack-dev-server": "^3.1.5"
+	},
+	"devDependencies": {
+      "babel-core": "^6.26.0",
+      "babel-loader": "^7.1.4",
+      "babel-plugin-module-resolver": "^3.1.1",
+      "babel-plugin-transform-object-rest-spread": "^6.26.0",
+      "babel-polyfill": "^6.26.0",
+      "babel-preset-env": "^1.6.1",
+      "eslint": "^4.19.1",
+      "eslint-plugin-import": "^2.9.0",
+      "extract-text-webpack-plugin": "^4.0.0-beta.0",
+      "resolve-url-loader": "^2.3.0",
+      "webpack": "^4.16.5",
+      "webpack-cli": "^2.0.13"
+	}
+}
+\end{lstlisting}
+
 % Зачем: свой счетчик для нумерации тестов.
 \newcounter{testnumber}
 \newcommand\testnumber{\stepcounter{testnumber}\arabic{testnumber}}
@@ -26,13 +64,14 @@
 	\centering Описание тестового случая
 \end{minipage} & 
 \begin{minipage}{1\linewidth}
-	\centering Ожидаемые результаты
+	\centering Ожидаемый результат
 \end{minipage} & 
 \centering\arraybackslash Полученный результат \endfirsthead
 
 \caption*{Продолжение таблицы \ref{table:testing:test_cases}}\\\hline
-\centering № & \centering Описание тестового случая & \centering Ожидаемые результаты & \centering\arraybackslash Полученный результат \\\hline \endhead
+\centering № & \centering Описание тестового случая & \centering Ожидаемый результат & \centering\arraybackslash Полученный результат \\\hline \endhead
 
+% 1
 \hline
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
@@ -46,6 +85,7 @@
 Компонент не отрисовывается на гриде. Отображается сообщение об ошибке, что компонент не относится к типу <<layout>>. & Пройдено \\
 \hline
 
+% 2
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Выделение лэйаута}.
@@ -57,6 +97,7 @@
 Границы компонента окрашиваются прерывистой зеленой линией, и на границе появляются точки для изменения размеров компонента. & Пройдено \\
 \hline
 
+% 3
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Добавление компонента в лэйаут}.
@@ -66,7 +107,9 @@
   \end{enumerate}
 \end{minipage} &
 Компонент <<Combo>> будет отрисован внутри созданного <<Horizontal layout>>. & Пройдено \\
+\hline
 
+% 4
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Выделение компонента внутри лэйаута}.
@@ -77,8 +120,8 @@
   \end{enumerate}
 \end{minipage} &
 Границы компонента окрашиваются прерывистой зеленой линией, а на границе не появляются точки для изменения размеров компонента. & Пройдено \\
-\hline
 
+% 5
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Редактирование компонента}.
@@ -94,6 +137,7 @@
 \end{minipage} &
 Компонент перерисуется в соответствии с введенными данными. & Пройдено \\
 
+% 6
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Редактирование лэйаута}.
@@ -110,6 +154,7 @@
 Лэйаут и его дочерние элементы перерисовываются в соответствии с введенными данными. & Пройдено \\
 \hline
 
+% 7
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Добавление компонента в конец непустого лэйаута}.
@@ -121,6 +166,7 @@
 \end{minipage} &
 Компонент <<Datatable>> будет отрисован крайним справа внутри созданного <<Horizontal layout>>. & Пройдено \\
 
+% 8
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Добавление компонента перед определенным компонентов внутри непустого лэйаута}.
@@ -133,6 +179,7 @@
 Компонент <<Datatable>> будет отрисован перед компонентом <<Combo>> внутри созданного <<Horizontal layout>>. & Пройдено \\
 \hline
 
+% 9
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Удаление компонента внутри лэйаута с одним дочерним компонентом}.
@@ -146,6 +193,7 @@
 \end{minipage} &
 Компонент <<Combo>> будет удален внутри созданного <<Horizontal layout>> Сам лэйаут останется на гриде. & Пройдено \\
 
+% 10
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Удаление непустого лэйаута}.
@@ -160,6 +208,7 @@
 Компонент <<Horizontal layout>> будет удален с грида вместе с дочерним элементом <<Combo>>. & Пройдено \\
 \hline
 
+% 11
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Многоуровневая компоновка}.
@@ -173,6 +222,7 @@
 \end{minipage} &
 Отображается компонент, состоящий из двух колонок: в первой <<Datatable>>, во второй в строки расположены: <<Combo>> и <<Datepicker>>.& Пройдено \\
 
+% 12
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Удаление первого компонента среди дочерних компонентов лэйаута}.
@@ -189,6 +239,7 @@
 \end{minipage} &
 Родительский <Horizontal layout>> перерисовывается, компонент <<Datatable>> удалятся,  и <<Vertical layout>> с компонентами <<Combo>> и <<Datepicker>> занимает его место.& Пройдено \\
 
+% 13
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Появление тени от лэйаута на гриде}.
@@ -202,6 +253,7 @@
 Сзади компонента появляется <<тень>>.& Пройдено \\
 \hline
 
+% 14
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Магнитная сетка}.
@@ -215,6 +267,7 @@
 \end{minipage} &
 Сзади компонента появляется <<тень>>, двигающаяся по гриду с шагом, равным размеру ребра клетки грида. После отпускания левой кнопки мыши компонент помещен туда, куда падала его тень.& Пройдено \\
 
+% 15
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Изменение позиции созданного непустого лэйаута}.
@@ -229,6 +282,7 @@
 Созданный на гриде <<Horizontal layout>> передвинут вмете с содержимым с начального положения.& Пройдено \\
 \hline
 
+% 16
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Редактирование уникальных свойств компонентов}.
@@ -243,6 +297,7 @@
 \end{minipage} &
 В созданном компоненте <<Leaf>> изменится цвет шаблона.& Пройдено \\
 
+% 17
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Редактирование уникальных свойств компонентов}.
@@ -260,6 +315,7 @@
 \end{minipage} &
 В созданном компоненте <<Chart>> меняется тип графика сначала на <<pie>>, затем на <<line>>. Проверка соответсвия вида графика осуществляется согласно документации Webix.& Пройдено \\
 
+% 18
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Отображение дополнительных свойств компонента <<Datatable>>}.
@@ -273,6 +329,7 @@
 Во вкладке со свойствами появляется дополнительная вкладка для колонок компонента <<Datatable>>.& Пройдено \\
 \hline
 
+% 19
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Отображение кода выделенного компонента при выборе вкладки <<CODE>>}.
@@ -283,6 +340,7 @@
 \end{minipage} &
 Содержимое инспектора инструментов перерисуется, появится содержимое вкладки <<CODE>>: textarea с JavaScript-кодом объекта компонента <<Horizontal layout>>.& Пройдено \\
 
+% 20
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Переключение вкладок палитры компонентов}.
@@ -297,6 +355,7 @@
 \end{minipage} &
 Происходит перерисовка содержимого списка палитры компонентов в соответствии с выбранной вкладкой.& Пройдено \\
 
+% 21
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Сохранение нового пресета}.
@@ -312,6 +371,7 @@
 \end{minipage} &
 В список пресетов в самый низ добавляется запись с именем <<123>>.& Пройдено \\
 
+% 22
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Создание нового пресета с пустым именем}.
@@ -326,6 +386,7 @@
 \end{minipage} &
 В правом верхнем углу экрана появится сообщение об ошибке с текстом <<Preset name can`t be empty>>.& Пройдено \\
 
+% 23
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Создание нового пресета с именем уже существующего пресета}.
@@ -338,12 +399,12 @@
 		\item ввести <<123>> в появившемся попапе;
 		\item левой кнопкой мыши нажать на кнопку <<ADD>>;
 		\item левой кнопкой мыши нажать на кнопку <<SAVE CURRENT CONFIGURATION>>;
-		\item ввести <<123>> в появившемся попапе;
-		\item левой кнопкой мыши нажать на кнопку <<ADD>>.
+		\item повторить шаги 7 и 8.
 	\end{enumerate}
 \end{minipage} &
 В правом верхнем углу экрана появляется сообщение об ошибке с текстом <<Item with this name already exists>>, а в список пресетов не добавляется новый пресет с введенным именем.& Пройдено \\
 
+% 24
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Загрузка пресета}.
@@ -360,6 +421,7 @@
 \end{minipage} &
 Грид полностью очищается от содержимого, после чего на него добавляется <<Horizontal layout>> с компонентом <<Datatable>> внутри.& Пройдено \\
 
+% 25
 \testnumber &
 \begin{minipage}[t]{1\linewidth}
 	\textbf{Очистка содержимого грида}.
