@@ -32,7 +32,7 @@
 \label{sec:economics:labouriousness}
 
 Общий объем программного модуля определяется на основе информации о функциях разрабатываемого программного модуля, исходя из количества и объема функций, реализуемых программным модулем, по формуле:
-
+\newline
 \begin{equation}
 	\totalloc = \sum_{i=1}^{n} \text{V}_i,
 \end{equation}
@@ -42,6 +42,7 @@
 \end{explanation}
 
 С учетом условий разработки общий объем программного модуля уточняется в организации и определяется уточненный объем программного модуля по формуле:
+\newline
 \begin{equation}
 	\text{V}_y = \sum_{i=1}^{n} \text{V}_\text{yi},
 \end{equation}
@@ -105,6 +106,7 @@
 Коэффициенты использования стандартных модулей и новизны программного модуля, составят $\stdmodules$ = $\num{0.06}$ и $\novelty$ = $\num{0.07}$ соответственно.
 
 Коэффициент сложности программного модуля $ \complexity $ рассчитывается по формуле:
+\newline
 \begin{equation}
 	\complexity = 1 + \sum_{i=1}^{n} \text{К}_i = 1 + \num{0.06} + \num{0.07} = \complexityfactor,
 \end{equation}
@@ -138,6 +140,7 @@
 \end{explanation}
 
 Численность исполнителей проекта($\executorsamount$) рассчитывается по формуле:
+\newline
 \begin{equation}
 	\developersnumber = \frac{\totallaboriousness}{\developmenttime \cdot \effectivetimefund} = \frac{\num{49}}{\num{0,16} \cdot \num{229}} = \num{2}~\text{чел.},
 \end{equation}
@@ -185,6 +188,7 @@
 
 Дополнительная заработная плата включает выплаты, предусмотренные законодательство о труде: оплата отпусков, льготных часов, времени  выполнения государственных обязанностей и других выплат, не связанных с основной деятельностью исполнителей, и определяется по нормативу, установленному в организации, в процентах к основной заработной плате~\cite{palitsyn}.
 Приняв данный норматив $\additionalwageratesymbol = \additionalwageratevalue$, рассчитаем дополнительные выплаты:
+\newline
 \begin{equation}
 	\additionalwagesymbol = \frac{\basewagesymbol \cdot \additionalwageratesymbol}{100\%} = \frac{\num{5655} \cdot \num{10}\%}{100\%} = \num{565.5}~\byn,
 \end{equation}
@@ -193,6 +197,7 @@
 \end{explanation}
 
 Отчисления в фонд социальной защиты населения и в фонд обязательного страхования определяются в соответствии с действующим законодательством по нормативу в процентном отношении к фонду основной и дополнительной зарплат по следующим формулам:
+\newline
 \begin{equation}
 	\ssfchargessymbol = \frac{(\basewagesymbol + \additionalwagesymbol) \cdot \ssfratesymbol}{100\%} = \frac{(5655 + \num{565.5}) \cdot \num{34.6}\%}{100\%} = \num{2152.3}~\byn,
 \end{equation}
