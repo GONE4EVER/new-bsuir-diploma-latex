@@ -15,137 +15,49 @@ import { getPresetsTabConfig } from './palletTabs/presetsTab';
 const getDefaultComponentPalletLayout = dataContent => ({
   rows: [
     {
-      view: 'search',
-      placeholder: 'Search 1,000,000 images...'
+      view: 'search', // Webix component name
+      placeholder: 'Search 1,000,000 images...' // default output
     },
     {
       view: 'tabview',
+
+      // child views container
       cells: [
         {
-          header: 'All',
-          body: getAllTabConfig(dataContent)
+          header: 'All', // tab's output name 
+          body: getAllTabConfig(dataContent) // tab's content
         },
         {
           header: 'Presets',
           body: getPresetsTabConfig()
         },
-        ...componentContainers(dataContent)
+        ...componentContainers(dataContent) // rest child components
       ]
     }
   ]
 });
 \end{lstlisting}
 
-Содержимое массива, возвращаемого функцией componentContainers являются DataView компоненты, каждый и который соответствует сожержанием своей вкладке.
+Содержимое массива, возвращаемого функцией componentContainers являются DataView компоненты, содержание каждого из которых соответствует выбранной вкладке. Конфиг каждой из вкладок выглядит следующим образом:
 
 \begin{lstlisting}
-const DATAVIEW_TEMPLATE = '<span class="webix-icon fa fa-#icon#"></span>  #element#';
-const LAYOUT_DATAVIEW_CONFIG = 'pallet:dataview:layouts';
-const COMPONENTS_DATAVIEW_CONFIG = 'pallet:dataview:components';
-const CUECARDS_DATAVIEW_CONFIG = 'pallet:dataview:cuecards';
-
-const componentContainers = data => [{
-  header: 'Layouts',
-  body: {
-    view: 'dataview',
-    template: DATAVIEW_TEMPLATE,
-    id: LAYOUT_DATAVIEW_CONFIG,
-    xCount: 3,
-    drag: 'source',
-    minHeight: 200,
-    data: data.layouts
-  }
-},
 {
-  header: 'Components',
+  header: 'Components', // selected tab's name
   body: {
-    view: 'dataview',
-    template: DATAVIEW_TEMPLATE,
+    view: 'dataview', // webix component name
+    template: DATAVIEW_TEMPLATE, // output mapping template
     id: COMPONENTS_DATAVIEW_CONFIG,
-    xCount: 3,
-    drag: 'source',
+    xCount: 3, // row size
+    drag: 'source', // special property for Drag-and-drop
     minHeight: 200,
-    data: data.components
+    data: data.components // data for mapping and output
   }
-},
-{
-  header: 'Cue cards',
-  body: {
-    view: 'dataview',
-    template: DATAVIEW_TEMPLATE,
-    id: CUECARDS_DATAVIEW_CONFIG,
-    xCount: 3,
-    drag: 'source',
-    minHeight: 200,
-    data: data.templates.map(element => ({
-      ...element,
-      template: element.template
-    }))
-  }
-}]
-\end{lstlisting}
-
-Каждый DataView компонент отвечает за отображение своей части данных, а указание свойства <<drag: 'source' предоставляет возможность использовать компонент как источник данных (пункта <<тащи>> или <<drag>>) для реализации алгоритма Drag-n-drop.
-
-Объект конфигураций самого компонента выглядит следующим образом:
-
-\begin{lstlisting}
-import getDefaultComponentPalletLayout from './palletLayoutConfig';
-import { onPresetLoad } from './palletTabs/presetsTab';
-import ComponentPallet from '../layouts/interfaces/ComponentPallet';
-
-const componentPalletConfig: ComponentPallet = {
-  name: 'AppOrchid-Component-Pallet',
-  defaults: {
-    // defaults here
-
-  },
-  $init() {
-    // initialization here
-  },
-  _getComponentViewConfig() {
-    if (!this.config.componentView || typeof this.config.componentView !== 'object') {
-      return this.config.defaultComponentView;
-    }
-
-    return this.config.componentView;
-  },
-  _getComponentView() {
-    return this.queryView({ ...this.config.defaultComponentView });
-  }
-};
-\end{lstlisting}
-
-Загрузка содержимого DataView компонентов -- преопределенных конфигураций графических компонентов, осуществляется самим Component-Pallet при его инициализации путем, регламентированным библиотекой Webix.
-
-\begin{lstlisting}
-$init() {
-  this.$ready.push(
-    () => {
-    webix.ajax().get(this.config.widgets)
-      .then(res => res.json())
-      .then(res => ({
-        layouts: res.layouts.map(item => ({ ...item, widgetType: 'layout' }),
-        components: res.components.map(item => ({ ...item, widgetType:'component' })),
-        templates: res.templates.map(item => ({ ...item, widgetType: 'card'}))
-      }))
-      .then((res) => {
-        this.addView({
-          ...getDefaultComponentPalletLayout(res)
-        });
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-    },
-    () => {
-      if (!this.config.gridId) { return; }
-      let loadPreset = onPresetLoad.bind(this);
-      this.attachEvent('onPresetLoad', loadPreset);
-    }
-  );
 }
 \end{lstlisting}
+
+Каждый DataView компонент отвечает за отображение своей части данных, а указание свойства <<drag: 'source'>> предоставляет возможность использовать компонент как источник данных (пункта <<тащи>> или <<drag>>) для реализации алгоритма Drag-n-drop.
+
+Загрузка содержимого DataView компонентов -- преопределенных конфигураций графических компонентов, осуществляется самим Component-Pallet при его инициализации путем, регламентированным библиотекой Webix. При получении результата AJAX-запроса, данные запроса разбиваются на группы, соответствующие существующим вкладкам, и обрабатываются инструментами отображения.
 
 Применение кастомной конфигурации к базовому компоненту осуществляется путем применения метода protoUI глобального объекта webix к конфигурации нашего компонента Component-Pallet и базовым классам, предоставляемым библиотекой Webix:
 \begin{itemize}
@@ -155,9 +67,9 @@ $init() {
 
 \begin{lstlisting}
 webix.protoUI(
-  componentPalletConfig,
-  webix.IdSpace,
-  webix.ui.layout
+  componentPalletConfig, // custom config
+  webix.IdSpace, // webix spacer component's class
+  webix.ui.layout // webix default component's class
 );
 \end{lstlisting}
 
@@ -170,135 +82,8 @@ webix.protoUI(
 
 Доступ к пресетам осуществляется через соответствующую вкладку <<Presets>>. Лист пресетов получает их конфигурации из объекта, реализующего доступ к данным в библиотеке Webix -- DataCollection.
 
-\begin{lstlisting}
-{
-  id: getPresetsListId(),
-  borderless: true,
-  data: webix.storage.local.get('collection') || [{ name: 'No presetsfound' }],
-  view: 'list',
-  select: true,
-  template: `#name#${DELETE_PRESET_ICON_TEMPLATE}`,
-  on: {
-      onItemDblClick(id): void {
-      const topParent = this.getTopParentView();
-      topParent.callEvent('onPresetLoad', [this.getItem(id)]);
-      }
-  },
-  onClick: {
-    'fa-trash-o': function (ev, id): void {
-      const self = this;
-      webix.confirm({
-        text: 'Item data will be lost. <br/> Are you sure?',
-        ok: 'Yes',
-        cancel: 'Cancel',
-        callback: (res) => {
-          removePreset.apply(self, [res, id]);
-        }
-      });
-    }
-  }
-}
-\end{lstlisting}
-
 Сохранение текущей конфигурации осуществляется путем сериализации содержимого грида. Для этого вызывается метод объекта грида getSerializedCollection, логика которого будет рассмотрена позднее.
-
-\begin{lstlisting}
-const topParent = $$(this.getTopParentView().config.master)
-.getTopParentView();
-
-const gridId = $$((topParent.config).gridId);
-
-const newElement = savePreset(this.getValue(), $$(gridId)
-  .getSerializedCollection());
-this.getTopParentView().hide();
-
-if (newElement) {
-  topParent.$$(getPresetsListId()).parse(newElement);
-}
-\end{lstlisting}
-
-Применение пресета из списка доступных осуществляется в несколько этапов. 
-Первым является вызов события onPresetLoad, на срабатывание которого вызывается колбэк с соответствующим именем, в котором осуществляется первичная проверка данных и дальнейшая делегация выполнения применения пресета.
-
-\begin{lstlisting}
-function onPresetLoad(preset) {
-  const grid = ($$(this.config.gridId));
-
-  if (preset.content) {
-    let arr = $$(this.config.gridId)
-      .getChildViews();
-
-    for (let i = arr.length - 1; i > 0; i--) {
-      grid.removeView(arr[i]);
-    }
-
-    webix.delay(() => {
-      loadPreset(preset.content, grid);
-    });
-
-    webix.message({
-      text: `Preset ${preset.name} loaded`,
-      expire: 1000
-    });
-  } else {
-    webix.message({
-      text: 'No data provided',
-      type: 'error'
-    });
-  }
-}
-\end{lstlisting}
-
-Вызываемая внутри функция loadPreset вызывает функцию saveAndRender для каждого объекта, которому соответствует компонент.
-
-\begin{lstlisting}  
-const loadPreset = (collection: object, grid: ComponentsLayout)=> {
-  Object.keys(collection)
-    .forEach((presetId) => {
-    saveAndRender(collection[presetId], grid);
-  });
-};    
-\end{lstlisting}
-
-Метод saveAndRender в свою очередь добавляет нужные позиционные свойства компонентам, которые будут помещаться на грид и вызывает у грида метод рендера. В качестве параметра туда передается конфиг компонента и его будущие координаты.
-
-\begin{lstlisting}
-const saveAndRender = (source: any, grid: ComponentsLayout) => {
-  const id = webix.uid();
-  let item = { id, ...source };
-  
-  if (!item.parentId) {
-    const width = item.width || 0;
-    const height = item.height || 0;
-  
-    const offsetX = Number(item.left + (width / 2));
-    const offsetY = Number(item.top + (height / 2));
-  
-    grid._addMovableElement(item, {
-      offsetX,
-      offsetY
-    });
-  }
-  return item;
-};
-\end{lstlisting}
 
 Удаление пресета из списка осуществляется путем удаления пресета из коллекции, к которой <<привязан>> список пресетов. Путем простой фильтрации по условию неравенства уникальному свойству удаляемого пресета и осуществляется процесс удаления.
 
-\begin{lstlisting}
-function removePreset(result: any, id: string | number) {
-  if (result) {
-    let presetsCollection = webix.storage.local.get('collection');
-    if (!presetsCollection || !presetsCollection.length) {
-      return;
-    }
-    presetsCollection.filter(element => element.name !== this.getItem(id).name);
-
-    this.remove(id);
-
-    webix.storage.local.put('collection', presetsCollection);
-  }
-}
-\end{lstlisting}
-
-Резюмируя, можно сделать вывод, что был разработан гибкий инструмент для использования предопределенных наборов компонентов, предоставляющий функциональность как добавления и применения пресетов, так и их удаления.
+Применение пресета удаляет все содержимое грида, а затем туда в качестве дочерних элементов добавляется содержимое выбранного пресета. 
