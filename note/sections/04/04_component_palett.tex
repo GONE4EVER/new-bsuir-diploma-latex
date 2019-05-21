@@ -263,7 +263,6 @@ const loadPreset = (collection: object, grid: ComponentsLayout)=> {
 Метод saveAndRender в свою очередь добавляет нужные позиционные свойства компонентам, которые будут помещаться на грид и вызывает у грида метод рендера. В качестве параметра туда передается конфиг компонента и его будущие координаты.
 
 \begin{lstlisting}
-    
 const saveAndRender = (source: any, grid: ComponentsLayout) => {
   const id = webix.uid();
   let item = { id, ...source };

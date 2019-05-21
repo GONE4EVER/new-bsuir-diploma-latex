@@ -18,8 +18,8 @@
   config: { 
     // config content
   },
-  element: 'webix_view_name',
-  icon: 'icon_name'
+  element: 'some_webix_view', // webix view name
+  icon: 'some_icons_name' // font awesome icon name
 }
 \end{lstlisting}
 
@@ -36,17 +36,18 @@
 
 \begin{lstlisting}
 webix.ui({
-	container: 'root',
+	container: 'root', // html node id
 	cols: [
 	  {
 	    view: 'AppOrchid-Component-Pallet',
-	    widgets: url,
-	    gridId: 'Grid1',
+			widgets: url, // some link with endpoint providing data
+			
+	    gridId: 'Grid1', // binded grid's id
 	    width: 170
 	  },
 	  {
 	    id: 'Grid1',
-	    gravity: 2,
+	    gravity: 2, // css flex-grow analogue
 	    view: 'AppOrchid-Components-Layout'
 	  },
 	  {
